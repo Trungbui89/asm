@@ -1,0 +1,264 @@
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+
+.container {
+    margin-top: -60px;
+    border-radius: 6px;
+    background-color: #dddddd;
+    box-shadow: 0 16px 24px 2px rgb(0 0 0 / 14%),
+                0 6px 30px 5px rgb(0 0 0 / 12%), 
+                0 8px 10px -5px rgb(0 0 0 / 20%);
+}
+
+.setting {
+    position: fixed;
+    right: -5px;
+    top: 150px;
+    z-index: 99;
+    padding: 18px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.setting i {
+    color: #fff;
+    font-size: 46px;
+    cursor: pointer;
+}
+
+.setting .setting-option {
+    position: absolute;
+    color: #000;
+    font-size: 24px;
+    width: 320%;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    padding: 12px;
+    border-radius: 3px;
+    background-color: #fff;
+    backdrop-filter: opacity(0%);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; 
+    transition: ease-out .3s;
+    transform: scale(0);
+    opacity: 0;
+}
+
+.setting i.active + .setting-option {
+    right: 123%;
+    top: -10%;;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.setting p::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    height: 25px;
+    width: 25px; 
+    top: 28%;
+    z-index: -1;
+    background-color: #fff;
+    transform: rotate(45deg);
+}
+
+.setting .radios {
+    display: flex;
+    justify-content: space-around;
+}
+
+.setting .radios label {
+    margin-right: 6px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.row {
+    justify-content: space-around;
+}
+
+.row > div {
+    transition: ease .1s;
+}
+
+.card {
+    padding: 12px;
+    border: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 65px;
+    background-color: #dddddd;
+    cursor: pointer;
+}
+
+.card .img {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: -25%;
+    left: 10%;
+    z-index: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: ease .3s;
+    box-shadow: 0 5px 15px -8px rgb(0 0 0 / 34%), 
+                0 8px 10px -5px rgb(0 0 0 / 30%);
+}
+
+.card:hover .img {
+    transform: translate(-50%, -5px);
+    border-radius: 5px;
+    width: 50%;
+    left: 50%;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.card .staffName {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background: linear-gradient(60deg, #ffffff, #cacaca);
+    box-shadow: 0 5px 15px -8px rgb(0 0 0 / 24%), 
+    0 8px 10px -5px rgb(0 0 0 / 20%);
+    transition: ease .3s;
+}
+
+.card:hover .staffName {
+    transform: translateY(5px);
+}
+
+.staffName p {
+    font-size: 18px;
+    font-weight: 900;
+    color: #3c3c3c;
+    transition: ease .3s;
+    position: relative;
+    top: 15px;
+}
+
+.card:hover .staffName p {
+    transform: translateY(5px) scale(1.5);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation-direction: alternate;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal.fadeOut {
+    animation: modalFadeOut ease-out 0.2s;
+}
+
+.modal-container {
+    background-color: #fff;
+    margin-top: 62px;
+    width: 600px;
+    max-width: calc(100% - 36px);
+    min-height: 300px;
+    position: relative;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #ffffff, #f0f0f0);
+    box-shadow: 0 4px 10px 0 rgb(0 0 0 / 20%), 
+                0 4px 20px 0 rgb(0 0 0 / 19%);
+    animation: modalFadeIn ease 0.5s;
+    animation-direction: alternate;
+}
+
+.modal-container .img {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    transform: translate3d(0,-50%,0);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 10px 0 rgb(0 0 0 / 25%), 
+                0 4px 20px 0 rgb(0 0 0 / 21%);
+}
+
+.modal-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.modal-container .info {
+    margin-top: -55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container .info > p:nth-child(1) {
+    font-size: 26px;
+    font-weight: 700;
+    color: #3c4858;
+}
+
+.info-date .birthday,
+.info-date .startDay {
+    text-align: center;
+} 
+
+.info-other {
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+@media screen and (max-width: 575px) {
+    .container {
+        border-radius: 0px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .setting {
+        display: none;
+    }
+}

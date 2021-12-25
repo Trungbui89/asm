@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Dancing+Script:wght@700&family=Josefin+Sans&family=Raleway:wght@100;500;700;900&family=Sedgwick+Ave&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+}
+
+.App {
+  background-color: #ebebeb;
+}
