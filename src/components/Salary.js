@@ -1,4 +1,5 @@
 import React from "react";
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 function Salary(props) {
 
@@ -27,11 +28,18 @@ function Salary(props) {
       })
 
     return (
-    <div className="card-container container">
-        <div className="row">
-            {salaryLists}
+      <div className='staff-list container'>
+        <div className='row breadcrumb-container'>
+          <Breadcrumb>
+            <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
+          </Breadcrumb>
         </div>
-    </div>
+        <div className="card-container container">
+            <div className="row">
+                {salaryLists}
+            </div>
+        </div>
+      </div>
     )
 }
 

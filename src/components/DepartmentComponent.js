@@ -1,4 +1,5 @@
 import React from "react";
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 function Department(props) {
 
@@ -18,11 +19,18 @@ function Department(props) {
       })
 
     return (
-    <div className="card-container container">
-        <div className="row">
-            {departmentLists}
+      <div className='staff-list container'>
+        <div className='row breadcrumb-container'>
+          <Breadcrumb>
+            <BreadcrumbItem active>Phòng Ban</BreadcrumbItem>
+          </Breadcrumb>
         </div>
-    </div>
+        <div className="card-container container">
+            <div className="row">
+                {departmentLists}
+            </div>
+        </div>
+      </div>
     )
 }
 
