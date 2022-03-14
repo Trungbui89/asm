@@ -1,38 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React, { Component } from 'react';
+import { Breadcrumb, BreadcrumbItem, Button, Form, Input, Modal, ModalBody, ModalHeader} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-function Staff(props)  {
+class Staff extends Component {
 
-  const [staffList, setStaffList] = useState(
-    props.staffs.map((staff) => {
-      return (
-        <div className="col-6 col-md-4 col-lg-2">
-          <Link to={`/staff/${staff.id}`} >
-            <div className='staff-card'>
-                <div className="img">
-                  <img src={staff.image} alt={staff.name} />
-                </div>
-                <div className="staffName">
-                    <p>{staff.name}</p>
-                </div>
-            </div>
-          </Link>
-        </div>
-      );
-    })
-  )
-  
-  useEffect(() => {
-    const button = document.querySelector('.search-container > span')
+  constructor(props) {
+    super(props)
 
-    button.addEventListener('click', () => {
-      const input = document.querySelector('.search-container > input')
-      const staffFilted = props.staffs.filter((staffs) => {
-        return staffs.name == input.value
-      })
-      setStaffList (
-        staffFilted.map((staff) => {
+    this.state = {
+      staffList: this.props.staffs.map((staff) => {
           return (
             <div className="col-6 col-md-4 col-lg-2">
               <Link to={`/staff/${staff.id}`} >
@@ -46,13 +22,45 @@ function Staff(props)  {
                 </div>
               </Link>
             </div>
-          )
+          );
         })
+    }
+
+    this.searchStaff = this.searchStaff.bind(this)
+  }
+  
+  searchStaff(event) {
+    const staffListRender = document.querySelector('.staffListRender')
+    const staffFilted = this.props.staffs.filter((staff) => {
+      return (
+        staff.name.toLowerCase().search(this.username.value) > -1
       )
     })
-  })
+    staffListRender.innerHTML = staffFilted.map((staff) => {
+      console.log(staff)
+        return (
+          <div className="col-6 col-md-4 col-lg-2">
+            <Link to={`/staff/${staff.id}`} >
+              <div className='staff-card'>
+                  <div className="img">
+                    <img src={staff.image} alt={staff.name} />
+                  </div>
+                  <div className="staffName">
+                      <p>{staff.name}</p>
+                  </div>
+              </div>
+            </Link>
+          </div>
+        )
+      })
+    event.preventDefault()
+  }
 
-  return (
+  render() {
+
+    const staffList = this.state.staffList
+
+    return (
     <div className='staff-list container'>
       <div className='row breadcrumb-container'>
         <Breadcrumb>
@@ -63,17 +71,18 @@ function Staff(props)  {
           <div className='col-6'>
             <h3>Nhân Viên</h3>
           </div>
-          <div className='col-6 search-container'>
-            <input />
-            <span className="fa fa-search fa-lg"></span> 
-          </div>
+          <Form className='col-6 search-container' onSubmit={this.searchStaff}>
+            <Input type='text' id='username' name='username' innerRef={(input) => this.username = input} />
+            <Button type='submit' value='submit' className="fa fa-search fa-lg"></Button> 
+          </Form>
       </div>
       <hr />
-      <div className="row">
+      <div className="row staffListRender">
           {staffList}
       </div>
     </div>
-  )
+    )
+  }
 }
 
 export default Staff;

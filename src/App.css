@@ -125,7 +125,7 @@
     align-items: center;
 }
 
-.staff-list .search-container input{
+.staff-list .search-container Input{
     border: none;
     background-color: #aaaaaa;
     outline: none;
@@ -145,7 +145,7 @@
     align-items: center;
 }
 
-.staff-list .search-container span {
+.staff-list .search-container Button {
     overflow: visible;
     width: 70px;
     position: absolute;
@@ -157,6 +157,7 @@
     justify-content: center;
     align-items: center;
     color: #fff;
+    border-radius: 0 27px 27px 0;
 }
 
 .modal-container {
