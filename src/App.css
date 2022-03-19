@@ -115,8 +115,23 @@
     transform: translateY(5px) scale(1.5);
 }
 
+.staff-list .tittle-container {
+    display: flex;
+    align-items: center;
+}
+
 .staff-list h3 {
     margin-left: 32px;
+    display: block;
+    padding: 0 24px 0 24px;
+}
+
+.staff-list .addBtn {
+    height: 80%;
+    background-color: #512da8;
+    display: flex;
+    align-items: center;
+
 }
 
 .staff-list .search-container{
@@ -158,6 +173,7 @@
     align-items: center;
     color: #fff;
     border-radius: 0 27px 27px 0;
+    padding: 0;
 }
 
 .modal-container {

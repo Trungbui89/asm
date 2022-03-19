@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Form, Input, Modal, ModalBody, ModalHeader} from 'reactstrap';
+import React, { Component } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Breadcrumb, BreadcrumbItem, Button, Form, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
 import { Link } from 'react-router-dom';
 
 class Staff extends Component {
@@ -30,14 +31,12 @@ class Staff extends Component {
   }
   
   searchStaff(event) {
-    const staffListRender = document.querySelector('.staffListRender')
     const staffFilted = this.props.staffs.filter((staff) => {
       return (
-        staff.name.toLowerCase().search(this.username.value) > -1
+        staff.name.toLowerCase().search(this.username.value.toLowerCase()) > -1
       )
     })
-    staffListRender.innerHTML = staffFilted.map((staff) => {
-      console.log(staff)
+    this.setState({staffList: staffFilted.map((staff) => {
         return (
           <div className="col-6 col-md-4 col-lg-2">
             <Link to={`/staff/${staff.id}`} >
@@ -53,6 +52,7 @@ class Staff extends Component {
           </div>
         )
       })
+    }) 
     event.preventDefault()
   }
 
@@ -68,8 +68,11 @@ class Staff extends Component {
         </Breadcrumb>
       </div>
       <div className='row'>
-          <div className='col-6'>
+          <div className='col-6 tittle-container'>
             <h3>Nhân Viên</h3>
+            <div className='addBtn'>
+              <i class="fa fa-plus"></i>
+            </div>
           </div>
           <Form className='col-6 search-container' onSubmit={this.searchStaff}>
             <Input type='text' id='username' name='username' innerRef={(input) => this.username = input} />
