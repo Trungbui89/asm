@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Breadcrumb, BreadcrumbItem, Button, Form, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
 import { Link } from 'react-router-dom';
 
@@ -23,11 +22,29 @@ class Staff extends Component {
                 </div>
               </Link>
             </div>
-          );
-        })
+          )
+        }),
+        isModalOpen: false,
+        name: null,
+        doB: null,
+        salaryScale: null,
+        startDate: null,
+        department: null,
+        annualLeave: null,
+        overTime: null,
+        salary: null,
+        image: null
     }
 
     this.searchStaff = this.searchStaff.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+  }
+
+  toggleModal(event) {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    })
+    event.preventDefault()
   }
   
   searchStaff(event) {
@@ -61,29 +78,37 @@ class Staff extends Component {
     const staffList = this.state.staffList
 
     return (
-    <div className='staff-list container'>
-      <div className='row breadcrumb-container'>
-        <Breadcrumb>
-          <BreadcrumbItem active>Nhân Viên</BreadcrumbItem>
-        </Breadcrumb>
-      </div>
-      <div className='row'>
-          <div className='col-6 tittle-container'>
-            <h3>Nhân Viên</h3>
-            <div className='addBtn'>
-              <i class="fa fa-plus"></i>
+    <React.Fragment>
+      <div className='staff-list container'>
+        <div className='row breadcrumb-container'>
+          <Breadcrumb>
+            <BreadcrumbItem active>Nhân Viên</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+        <div className='row'>
+            <div className='col-6 tittle-container'>
+              <h3>Nhân Viên</h3>
+              <div className='addBtn'>
+                <i class="fa fa-plus"></i>
+              </div>
             </div>
-          </div>
-          <Form className='col-6 search-container' onSubmit={this.searchStaff}>
-            <Input type='text' id='username' name='username' innerRef={(input) => this.username = input} />
-            <Button type='submit' value='submit' className="fa fa-search fa-lg"></Button> 
-          </Form>
+            <Form className='col-6 search-container' onSubmit={this.searchStaff}>
+              <Input type='text' id='username' name='username' innerRef={(input) => this.username = input} />
+              <Button type='submit' value='submit' className="fa fa-search fa-lg"></Button> 
+            </Form>
+        </div>
+        <hr />
+        <div className="row staffListRender">
+            {staffList}
+        </div>
       </div>
-      <hr />
-      <div className="row staffListRender">
-          {staffList}
-      </div>
-    </div>
+      <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+        <ModalHeader>Thêm Nhân Viên</ModalHeader>
+        <ModalBody>
+
+        </ModalBody>
+      </Modal>
+    </React.Fragment>
     )
   }
 }
