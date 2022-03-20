@@ -26,10 +26,14 @@ class Staff extends Component {
         }),
         isModalOpen: false,
         name: null,
-        doB: null,
+        birthday: null,
         salaryScale: null,
         startDate: null,
-        department: null,
+        department: this.props.departments.map((department) => {
+          return (
+            department.name
+          )
+        }),
         annualLeave: null,
         overTime: null,
         salary: null,
@@ -39,6 +43,8 @@ class Staff extends Component {
     this.searchStaff = this.searchStaff.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
   }
+
+
 
   toggleModal(event) {
     this.setState({
@@ -109,33 +115,73 @@ class Staff extends Component {
         </ModalHeader>
         <ModalBody>
           <Form onSubmit={this.handleForm}>
-            <FormGroup>
-              <Label htmlFor='username'>Tên</Label>
-              <Input type='text' id='username' name='username' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='name'>Tên</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <Input type='text' id='name' name='name' value={this.state.name}/>
+              </div>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor='username'>Tên</Label>
-              <Input type='text' id='username' name='username' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='birthday'>Ngày sinh</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <Input type='date' id='birthday' name='birthday' value={this.state.birthday}/>
+              </div>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor='username'>Tên</Label>
-              <Input type='text' id='username' name='username' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='startDate'>Ngày vào công ty</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <Input type='date' id='startDate' name='startDate' value={this.state.startDate}/>
+              </div>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor='username'>Tên</Label>
-              <Input type='text' id='username' name='username' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='department'>Phòng ban</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <select class="form-select form-select-lg">
+                  <option value="-1" selected>chọn phòng ban</option>
+                  {this.state.department.map(department => {
+                    return (
+                      <option value="department">{department}</option>
+                    )
+                  })}
+                </select>
+              </div>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor='username'>Tên</Label>
-              <Input type='text' id='username' name='username' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='salaryScale'>Hệ số lương</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <Input type='text' id='salaryScale' name='salaryScale' value={this.state.salaryScale}/>
+              </div>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor='username'>Tên</Label>
-              <Input type='text' id='username' name='username' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='annualLeave'>Số ngày nghỉ còn lại</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <Input type='text' id='annualLeave' name='annualLeave' value={this.state.annualLeave}/>
+              </div>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor='overtime'>Số ngày đã làm thêm</Label>
-              <Input type='text' id='overtime' name='overtime' />
+            <FormGroup className='row'>
+              <div className='col-12 col-md-4 col-lg-4'>
+                <Label htmlFor='overtime'>Số ngày đã làm thêm</Label>
+              </div>
+              <div className='col-12 col-md-8 col-lg-8'>
+                <Input type='text' id='overtime' name='overtime' value={this.state.overTime}/>
+              </div>
+            </FormGroup>
+            <FormGroup className='row justify-content-md-center'>
+              <div className='col-3'>
+                <Button type='Submit' value='Submit' color='primary'>Thêm</Button>
+              </div>
             </FormGroup>
           </Form>
         </ModalBody>

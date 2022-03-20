@@ -23,7 +23,7 @@ function Main()  {
     <div className="Main">
       <Header />
         <Switch>
-          <Route exact path='/staff' component={() => <Staff staffs={infos}/>} />
+          <Route exact path='/staff' component={() => <Staff staffs={infos} departments={department}/>} />
           <Route path='/staff/:staffId' component={StaffId} />
           <Route exact path='/department' component={() => <Department departments={department}/>} />
           <Route exact path='/salary' component={() => <Salary staffs={infos}/>} />
