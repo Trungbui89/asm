@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Breadcrumb, BreadcrumbItem, Button, Form, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
+import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
 import { Link } from 'react-router-dom';
 
 class Staff extends Component {
@@ -88,8 +88,8 @@ class Staff extends Component {
         <div className='row'>
             <div className='col-6 tittle-container'>
               <h3>Nhân Viên</h3>
-              <div className='addBtn'>
-                <i class="fa fa-plus"></i>
+              <div className='addBtn' onClick={this.toggleModal}>
+                <i className="fa fa-plus"></i>
               </div>
             </div>
             <Form className='col-6 search-container' onSubmit={this.searchStaff}>
@@ -103,9 +103,41 @@ class Staff extends Component {
         </div>
       </div>
       <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-        <ModalHeader>Thêm Nhân Viên</ModalHeader>
+        <ModalHeader>
+          <h3>Thêm Nhân Viên</h3>
+          <i className="fa fa-times" onClick={this.toggleModal}></i>
+        </ModalHeader>
         <ModalBody>
-
+          <Form onSubmit={this.handleForm}>
+            <FormGroup>
+              <Label htmlFor='username'>Tên</Label>
+              <Input type='text' id='username' name='username' />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor='username'>Tên</Label>
+              <Input type='text' id='username' name='username' />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor='username'>Tên</Label>
+              <Input type='text' id='username' name='username' />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor='username'>Tên</Label>
+              <Input type='text' id='username' name='username' />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor='username'>Tên</Label>
+              <Input type='text' id='username' name='username' />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor='username'>Tên</Label>
+              <Input type='text' id='username' name='username' />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor='overtime'>Số ngày đã làm thêm</Label>
+              <Input type='text' id='overtime' name='overtime' />
+            </FormGroup>
+          </Form>
         </ModalBody>
       </Modal>
     </React.Fragment>
