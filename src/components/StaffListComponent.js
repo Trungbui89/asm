@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
+import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, FormFeedback, Label, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
 import { Link } from 'react-router-dom';
 
 class Staff extends Component {
@@ -25,27 +25,28 @@ class Staff extends Component {
           )
         }),
         isModalOpen: false,
-        name: null,
-        birthday: null,
-        salaryScale: null,
-        startDate: null,
         department: this.props.departments.map((department) => {
           return (
             department.name
           )
         }),
-        annualLeave: null,
-        overTime: null,
-        salary: null,
-        image: null,
+        name: '',
+        birthday: '',
+        salaryScale: '',
+        startDate: '',
+        departmentSelected: '',
+        annualLeave: '',
+        overTime: '',
+        salary: '',
+        image: '',
         touched: {
           name: false,
+          departmentSelected: false,
           birthday: false,
           salaryScale: false,
           startDate: false,
           annualLeave: false,
-          overTime: false,
-          salary: false,
+          overTime: false
         }
     }
 
@@ -54,17 +55,64 @@ class Staff extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
+    this.validate = this.validate.bind(this)
   }
 
-  handleBlur = (field) => (event) => {
+  handleBlur = (field) => () => {
     this.setState({
       touched: {...this.state.touched, [field]: true}
     })
   }
 
+  validate(name, departmentSelected, salaryScale, annualLeave, overTime, birthday, startDate) {
+    const error = {
+      name: '',
+      departmentSelected: '',
+      salaryScale: '',
+      annualLeave: '',
+      overTime: '',
+      birthday: '',
+      startDate: ''
+    }
+
+    if(this.state.touched.name && name.length < 3) {
+      error.name = 'Tên phải dài hơn 3 ký tự'
+    } else if (this.state.touched.name && name.length > 30){
+      error.name = 'Tên phải ít hơn 30 ký tự'
+    }
+
+    if(this.state.touched.birthday && birthday === '') {
+      error.birthday = 'Hãy chọn ngày sinh'
+    }
+
+    if(this.state.touched.startDate && startDate === '') {
+      error.startDate = 'Hãy chọn ngày vào Cty'
+    }
+
+    if(this.state.touched.departmentSelected && departmentSelected === '-1') {
+      error.departmentSelected = 'Hãy chọn phòng ban'
+    }
+
+    if(this.state.touched.salaryScale && isNaN(Number(salaryScale))) {
+      error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
+    } else if(this.state.touched.salaryScale && isNaN(Number(salaryScale)) && Number(salaryScale)<1 && Number(salaryScale)>3) {
+      error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
+    }
+
+    if(this.state.touched.annualLeave && isNaN(Number(annualLeave))) {
+      error.annualLeave = 'Hãy nhập giá trị số'
+    }
+
+    if(this.state.touched.overTime && isNaN(Number(overTime))) {
+      error.overTime = 'Hãy nhập giá trị số'
+    }
+
+    return error
+  }
+
   handleChange(event) {
     const target = event.target
-    const value = target.value
+    const value =  target.value
     const name = target.name
     this.setState({
       [name]: value
@@ -72,7 +120,6 @@ class Staff extends Component {
   }
 
   handleSubmit(event) {
-    console.log(this.state.name)
     this.toggleModal()
     event.preventDefault()
   }
@@ -112,6 +159,7 @@ class Staff extends Component {
   render() {
 
     const staffList = this.state.staffList
+    const error = this.validate(this.state.name, this.state.birthday, this.state.startDate, this.state.departmentSelected, this.state.salaryScale, this.state.annualLeave, this.state.overTime)
 
     return (
     <React.Fragment>
@@ -153,7 +201,11 @@ class Staff extends Component {
                 <Input type='text' id='name' name='name' 
                 value={this.state.name}
                 onChange={this.handleChange}
+                onBlur={this.handleBlur('name')}
+                valid={error.name === ''}
+                invalid={error.name !== ''}
                 />
+                <FormFeedback>{error.name}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -164,7 +216,11 @@ class Staff extends Component {
                 <Input type='date' id='birthday' name='birthday' 
                 value={this.state.birthday}
                 onChange={this.handleChange}
+                onBlur={this.handleBlur('birthday')}
+                valid={error.birthday === ''}
+                invalid={error.birthday !== ''}
                 />
+                <FormFeedback>{error.birthday}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -175,7 +231,11 @@ class Staff extends Component {
                 <Input type='date' id='startDate' name='startDate' 
                 value={this.state.startDate}
                 onChange={this.handleChange}
+                onBlur ={this.handleBlur('startDate')}
+                valid={error.startDate === ''}
+                invalid={error.startDate !== ''}
                 />
+                <FormFeedback>{error.startDate}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -183,14 +243,20 @@ class Staff extends Component {
                 <Label htmlFor='department'>Phòng ban</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <select class="form-select form-select-lg">
+                <select class="form-select form-select-lg" name='departmentSelected' 
+                onChange={this.handleChange} 
+                onBlur ={this.handleBlur('departmentSelected')}
+                valid={error.departmentSelected === ''}
+                invalid={error.departmentSelected !== ''}
+                >
                   <option value="-1" selected>chọn phòng ban</option>
                   {this.state.department.map(department => {
                     return (
-                      <option value="department">{department}</option>
+                      <option value={department}>{department}</option>
                     )
                   })}
                 </select>
+                <FormFeedback>{error.departmentSelected}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -201,7 +267,11 @@ class Staff extends Component {
                 <Input type='text' id='salaryScale' name='salaryScale' 
                 value={this.state.salaryScale}
                 onChange={this.handleChange}
+                onBlur ={this.handleBlur('salaryScale')}
+                valid={error.salaryScale === ''}
+                invalid={error.salaryScale !== ''}
                 />
+                <FormFeedback>{error.salaryScale}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -212,18 +282,26 @@ class Staff extends Component {
                 <Input type='text' id='annualLeave' name='annualLeave' 
                 value={this.state.annualLeave}
                 onChange={this.handleChange}
+                onBlur ={this.handleBlur('annualLeave')}
+                valid={error.annualLeave === ''}
+                invalid={error.annualLeave !== ''}
                 />
+                <FormFeedback>{error.annualLeave}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row'>
               <div className='col-12 col-md-4 col-lg-4'>
-                <Label htmlFor='overtime'>Số ngày đã làm thêm</Label>
+                <Label htmlFor='overTime'>Số ngày đã làm thêm</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='text' id='overtime' name='overtime' 
+                <Input type='text' id='overTime' name='overTime' 
                 value={this.state.overTime}
                 onChange={this.handleChange}
+                onBlur ={this.handleBlur('overTime')}
+                valid={error.overTime === ''}
+                invalid={error.overTime !== ''}
                 />
+                <FormFeedback>{error.overTime}</FormFeedback>
               </div>
             </FormGroup>
             <FormGroup className='row justify-content-md-center'>
