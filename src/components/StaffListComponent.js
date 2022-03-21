@@ -37,20 +37,50 @@ class Staff extends Component {
         annualLeave: null,
         overTime: null,
         salary: null,
-        image: null
+        image: null,
+        touched: {
+          name: false,
+          birthday: false,
+          salaryScale: false,
+          startDate: false,
+          annualLeave: false,
+          overTime: false,
+          salary: false,
+        }
     }
 
     this.searchStaff = this.searchStaff.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
   }
 
+  handleBlur = (field) => (event) => {
+    this.setState({
+      touched: {...this.state.touched, [field]: true}
+    })
+  }
 
+  handleChange(event) {
+    const target = event.target
+    const value = target.value
+    const name = target.name
+    this.setState({
+      [name]: value
+    })
+  }
 
-  toggleModal(event) {
+  handleSubmit(event) {
+    console.log(this.state.name)
+    this.toggleModal()
+    event.preventDefault()
+  }
+
+  toggleModal() {
     this.setState({
       isModalOpen: !this.state.isModalOpen
     })
-    event.preventDefault()
   }
   
   searchStaff(event) {
@@ -114,13 +144,16 @@ class Staff extends Component {
           <i className="fa fa-times" onClick={this.toggleModal}></i>
         </ModalHeader>
         <ModalBody>
-          <Form onSubmit={this.handleForm}>
+          <Form onSubmit={this.handleSubmit}>
             <FormGroup className='row'>
               <div className='col-12 col-md-4 col-lg-4'>
                 <Label htmlFor='name'>Tên</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='text' id='name' name='name' value={this.state.name}/>
+                <Input type='text' id='name' name='name' 
+                value={this.state.name}
+                onChange={this.handleChange}
+                />
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -128,7 +161,10 @@ class Staff extends Component {
                 <Label htmlFor='birthday'>Ngày sinh</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='date' id='birthday' name='birthday' value={this.state.birthday}/>
+                <Input type='date' id='birthday' name='birthday' 
+                value={this.state.birthday}
+                onChange={this.handleChange}
+                />
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -136,7 +172,10 @@ class Staff extends Component {
                 <Label htmlFor='startDate'>Ngày vào công ty</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='date' id='startDate' name='startDate' value={this.state.startDate}/>
+                <Input type='date' id='startDate' name='startDate' 
+                value={this.state.startDate}
+                onChange={this.handleChange}
+                />
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -159,7 +198,10 @@ class Staff extends Component {
                 <Label htmlFor='salaryScale'>Hệ số lương</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='text' id='salaryScale' name='salaryScale' value={this.state.salaryScale}/>
+                <Input type='text' id='salaryScale' name='salaryScale' 
+                value={this.state.salaryScale}
+                onChange={this.handleChange}
+                />
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -167,7 +209,10 @@ class Staff extends Component {
                 <Label htmlFor='annualLeave'>Số ngày nghỉ còn lại</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='text' id='annualLeave' name='annualLeave' value={this.state.annualLeave}/>
+                <Input type='text' id='annualLeave' name='annualLeave' 
+                value={this.state.annualLeave}
+                onChange={this.handleChange}
+                />
               </div>
             </FormGroup>
             <FormGroup className='row'>
@@ -175,12 +220,15 @@ class Staff extends Component {
                 <Label htmlFor='overtime'>Số ngày đã làm thêm</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='text' id='overtime' name='overtime' value={this.state.overTime}/>
+                <Input type='text' id='overtime' name='overtime' 
+                value={this.state.overTime}
+                onChange={this.handleChange}
+                />
               </div>
             </FormGroup>
             <FormGroup className='row justify-content-md-center'>
               <div className='col-3'>
-                <Button type='Submit' value='Submit' color='primary'>Thêm</Button>
+                <Button type='submit' value='submit' color='primary'>Thêm</Button>
               </div>
             </FormGroup>
           </Form>
