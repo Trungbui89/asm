@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, FormFeedback, Label, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
 import { Link } from 'react-router-dom';
+import { parse } from '@fortawesome/fontawesome-svg-core';
 
 class Staff extends Component {
 
@@ -37,8 +38,6 @@ class Staff extends Component {
         departmentSelected: '',
         annualLeave: '',
         overTime: '',
-        salary: '',
-        image: '',
         touched: {
           name: false,
           departmentSelected: false,
@@ -89,8 +88,6 @@ class Staff extends Component {
       error.startDate = 'Hãy chọn ngày vào Cty'
     }
 
-    console.log(departmentSelected)
-    console.log(this.state.touched.departmentSelected)
     if(this.state.touched.departmentSelected && (departmentSelected === '-1' || departmentSelected === '')) {
       error.departmentSelected = 'Hãy chọn phòng ban'
     }
@@ -124,6 +121,49 @@ class Staff extends Component {
   handleSubmit(event) {
     this.toggleModal()
     event.preventDefault()
+    const newStaff = {
+      name: this.state.name,
+      birthday: this.state.birthday,
+      salaryScale: this.state.salaryScale,
+      startDate: this.state.startDate,
+      departmentSelected: this.state.departmentSelected,
+      annualLeave: this.state.annualLeave,
+      overTime: this.state.overTime,
+      salary: 5000000,
+      image: '/assets/images/alberto.png'
+    }
+
+    if (window.localStorage.getItem('newStaffs')) {
+      window.localStorage.setItem('newStaffs', window.localStorage.getItem('newStaffs').concat(';', JSON.stringify(newStaff)))
+    } else {
+      window.localStorage.setItem('newStaffs', JSON.stringify(newStaff))
+    }
+
+    // window.localStorage.removeItem('newStaffs')
+
+    console.log(window.localStorage.getItem('newStaffs'))
+    const addNewStaff = window.localStorage.getItem('newStaffs').split(';').map((staff) => {
+      return JSON.parse(staff)
+    })
+    // console.log(this.props.staffs.concat(addNewStaff))
+    console.log(addNewStaff)
+    this.setState({staffList: this.props.staffs.concat(addNewStaff).map((staff) => {
+      return (
+        <div className="col-6 col-md-4 col-lg-2">
+          <Link to={`/staff/${staff.id}`} >
+            <div className='staff-card'>
+                <div className="img">
+                  <img src={staff.image} alt={staff.name} />
+                </div>
+                <div className="staffName">
+                    <p>{staff.name}</p>
+                </div>
+            </div>
+          </Link>
+        </div>
+      )
+    })
+  })
   }
 
   toggleModal() {
