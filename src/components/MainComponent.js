@@ -14,6 +14,7 @@ function Main()  {
   const [department] = useState(DEPARTMENTS);
 
   const StaffId = ({match}) => {
+    console.log(match)
     return (
       <StaffDetail staff={infos.filter((info) => info.id === parseInt(match.params.staffId,10))[0]} />
     )

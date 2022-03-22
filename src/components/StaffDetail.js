@@ -4,9 +4,6 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
   const StaffDetail = ({staff}) => {
-
-    console.log(staff)
-
     return(   
         <div className="container">
             <div className='row breadcrumb-container'>
