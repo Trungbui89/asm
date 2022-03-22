@@ -64,7 +64,7 @@ class Staff extends Component {
     })
   }
 
-  validate(name, departmentSelected, salaryScale, annualLeave, overTime, birthday, startDate) {
+  validate(name, birthday, startDate, departmentSelected, salaryScale, annualLeave, overTime) {
     const error = {
       name: '',
       departmentSelected: '',
@@ -89,21 +89,23 @@ class Staff extends Component {
       error.startDate = 'Hãy chọn ngày vào Cty'
     }
 
-    if(this.state.touched.departmentSelected && departmentSelected === '-1') {
+    console.log(departmentSelected)
+    console.log(this.state.touched.departmentSelected)
+    if(this.state.touched.departmentSelected && (departmentSelected === '-1' || departmentSelected === '')) {
       error.departmentSelected = 'Hãy chọn phòng ban'
     }
-
-    if(this.state.touched.salaryScale && isNaN(Number(salaryScale))) {
+    
+    if(this.state.touched.salaryScale && (isNaN(salaryScale) || salaryScale === '')) {
       error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
-    } else if(this.state.touched.salaryScale && isNaN(Number(salaryScale)) && Number(salaryScale)<1 && Number(salaryScale)>3) {
+    } else if(this.state.touched.salaryScale && !isNaN(salaryScale) && (Number(salaryScale)<1 || Number(salaryScale)>3)) {
       error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
     }
 
-    if(this.state.touched.annualLeave && isNaN(Number(annualLeave))) {
+    if(this.state.touched.annualLeave && (isNaN(annualLeave) || annualLeave === '')) {
       error.annualLeave = 'Hãy nhập giá trị số'
     }
 
-    if(this.state.touched.overTime && isNaN(Number(overTime))) {
+    if(this.state.touched.overTime && (isNaN(overTime) || overTime === '')) {
       error.overTime = 'Hãy nhập giá trị số'
     }
 
@@ -240,10 +242,11 @@ class Staff extends Component {
             </FormGroup>
             <FormGroup className='row'>
               <div className='col-12 col-md-4 col-lg-4'>
-                <Label htmlFor='department'>Phòng ban</Label>
+                <Label htmlFor='departmentSelected'>Phòng ban</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <select class="form-select form-select-lg" name='departmentSelected' 
+                <Input type='select' class="form-select form-select-lg" id='departmentSelected'  name='departmentSelected' 
+                // value={this.state.departmentSelected}
                 onChange={this.handleChange} 
                 onBlur ={this.handleBlur('departmentSelected')}
                 valid={error.departmentSelected === ''}
@@ -255,7 +258,7 @@ class Staff extends Component {
                       <option value={department}>{department}</option>
                     )
                   })}
-                </select>
+                </Input>
                 <FormFeedback>{error.departmentSelected}</FormFeedback>
               </div>
             </FormGroup>
