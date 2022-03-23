@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, FormFeedback, Label, Input, Modal, ModalBody, ModalHeader} from 'reactstrap'
 import { Link } from 'react-router-dom';
-import { parse } from '@fortawesome/fontawesome-svg-core';
 
 class Staff extends Component {
 
@@ -121,12 +120,34 @@ class Staff extends Component {
   handleSubmit(event) {
     this.toggleModal()
     event.preventDefault()
+
+    if (window.localStorage.getItem('staffID')) {
+     window.localStorage.setItem('staffID', Number(window.localStorage.getItem('staffID')) + 1)     
+    } else {
+      window.localStorage.setItem('staffID', this.props.staffs[this.props.staffs.length - 1].id + 1)
+    }
+
+    // window.localStorage.removeItem('staffID')
+    // window.localStorage.removeItem('newStaffs')
+
+    let departmentSeted = this.props.departments.filter((dept) => {
+      if(this.state.departmentSelected === dept.name){
+        return dept
+      }
+    })[0]
+    if(departmentSeted == undefined) {
+      departmentSeted = {name: 'Chưa có phòng ban'}
+    }
+
+    console.log(departmentSeted)
+
     const newStaff = {
+      id: Number(window.localStorage.getItem('staffID')),
       name: this.state.name,
-      birthday: this.state.birthday,
+      doB: this.state.birthday,
       salaryScale: this.state.salaryScale,
       startDate: this.state.startDate,
-      departmentSelected: this.state.departmentSelected,
+      department: departmentSeted,
       annualLeave: this.state.annualLeave,
       overTime: this.state.overTime,
       salary: 5000000,
@@ -139,31 +160,12 @@ class Staff extends Component {
       window.localStorage.setItem('newStaffs', JSON.stringify(newStaff))
     }
 
-    // window.localStorage.removeItem('newStaffs')
-
-    console.log(window.localStorage.getItem('newStaffs'))
     const addNewStaff = window.localStorage.getItem('newStaffs').split(';').map((staff) => {
       return JSON.parse(staff)
     })
-    // console.log(this.props.staffs.concat(addNewStaff))
+
     console.log(addNewStaff)
-    this.setState({staffList: this.props.staffs.concat(addNewStaff).map((staff) => {
-      return (
-        <div className="col-6 col-md-4 col-lg-2">
-          <Link to={`/staff/${staff.id}`} >
-            <div className='staff-card'>
-                <div className="img">
-                  <img src={staff.image} alt={staff.name} />
-                </div>
-                <div className="staffName">
-                    <p>{staff.name}</p>
-                </div>
-            </div>
-          </Link>
-        </div>
-      )
-    })
-  })
+    this.props.mainComptSetState(addNewStaff)
   }
 
   toggleModal() {
@@ -286,7 +288,6 @@ class Staff extends Component {
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
                 <Input type='select' class="form-select form-select-lg" id='departmentSelected'  name='departmentSelected' 
-                // value={this.state.departmentSelected}
                 onChange={this.handleChange} 
                 onBlur ={this.handleBlur('departmentSelected')}
                 valid={error.departmentSelected === ''}
