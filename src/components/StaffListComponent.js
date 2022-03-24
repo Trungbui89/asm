@@ -5,122 +5,90 @@ import { Control, LocalForm, Errors } from 'react-redux-form'
 
 class Staff extends Component {
 
+
+
   constructor(props) {
     super(props)
 
     this.state = {
       staffList: this.props.staffs.map((staff) => {
-          return (
-            <div className="col-6 col-md-4 col-lg-2">
-              <Link to={`/staff/${staff.id}`} >
-                <div className='staff-card'>
-                    <div className="img">
-                      <img src={staff.image} alt={staff.name} />
-                    </div>
-                    <div className="staffName">
-                        <p>{staff.name}</p>
-                    </div>
-                </div>
-              </Link>
-            </div>
-          )
-        }),
-        isModalOpen: false,
-        department: this.props.departments.map((department) => {
-          return (
-            department.name
-          )
-        }),
-        name: '',
-        birthday: '',
-        salaryScale: '',
-        startDate: '',
-        departmentSelected: '',
-        annualLeave: '',
-        overTime: '',
-        touched: {
-          name: false,
-          departmentSelected: false,
-          birthday: false,
-          salaryScale: false,
-          startDate: false,
-          annualLeave: false,
-          overTime: false
-        }
+        return (
+          <div className="col-6 col-md-4 col-lg-2">
+            <Link to={`/staff/${staff.id}`} >
+              <div className='staff-card'>
+                  <div className="img">
+                    <img src={staff.image} alt={staff.name} />
+                  </div>
+                  <div className="staffName">
+                      <p>{staff.name}</p>
+                  </div>
+              </div>
+            </Link>
+          </div>
+        )
+      }),
+      isModalOpen: false,
+      department: this.props.departments.map((department) => {
+        return (
+          department.name
+        )
+      }),
     }
 
     this.searchStaff = this.searchStaff.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
-    this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
-    this.validate = this.validate.bind(this)
   }
 
-  handleBlur = (field) => () => {
-    this.setState({
-      touched: {...this.state.touched, [field]: true}
-    })
-  }
+  // validate = (name, birthday, startDate, departmentSelected, salaryScale, annualLeave, overTime) => {
+  //   const error = {
+  //     name: '',
+  //     departmentSelected: '',
+  //     salaryScale: '',
+  //     annualLeave: '',
+  //     overTime: '',
+  //     birthday: '',
+  //     startDate: ''
+  //   }
 
-  validate(name, birthday, startDate, departmentSelected, salaryScale, annualLeave, overTime) {
-    const error = {
-      name: '',
-      departmentSelected: '',
-      salaryScale: '',
-      annualLeave: '',
-      overTime: '',
-      birthday: '',
-      startDate: ''
-    }
+  //   if(this.state.touched.name && name.length < 3) {
+  //     error.name = 'Tên phải dài hơn 3 ký tự'
+  //   } else if (this.state.touched.name && name.length > 30){
+  //     error.name = 'Tên phải ít hơn 30 ký tự'
+  //   }
 
-    if(this.state.touched.name && name.length < 3) {
-      error.name = 'Tên phải dài hơn 3 ký tự'
-    } else if (this.state.touched.name && name.length > 30){
-      error.name = 'Tên phải ít hơn 30 ký tự'
-    }
+  //   if(this.state.touched.birthday && birthday === '') {
+  //     error.birthday = 'Hãy chọn ngày sinh'
+  //   }
 
-    if(this.state.touched.birthday && birthday === '') {
-      error.birthday = 'Hãy chọn ngày sinh'
-    }
+  //   if(this.state.touched.startDate && startDate === '') {
+  //     error.startDate = 'Hãy chọn ngày vào Cty'
+  //   }
 
-    if(this.state.touched.startDate && startDate === '') {
-      error.startDate = 'Hãy chọn ngày vào Cty'
-    }
-
-    if(this.state.touched.departmentSelected && (departmentSelected === '-1' || departmentSelected === '')) {
-      error.departmentSelected = 'Hãy chọn phòng ban'
-    }
+  //   if(this.state.touched.departmentSelected && (departmentSelected === '-1' || departmentSelected === '')) {
+  //     error.departmentSelected = 'Hãy chọn phòng ban'
+  //   }
     
-    if(this.state.touched.salaryScale && (isNaN(salaryScale) || salaryScale === '')) {
-      error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
-    } else if(this.state.touched.salaryScale && !isNaN(salaryScale) && (Number(salaryScale)<1 || Number(salaryScale)>3)) {
-      error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
-    }
+  //   if(this.state.touched.salaryScale && (isNaN(salaryScale) || salaryScale === '')) {
+  //     error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
+  //   } else if(this.state.touched.salaryScale && !isNaN(salaryScale) && (Number(salaryScale)<1 || Number(salaryScale)>3)) {
+  //     error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
+  //   }
 
-    if(this.state.touched.annualLeave && (isNaN(annualLeave) || annualLeave === '')) {
-      error.annualLeave = 'Hãy nhập giá trị số'
-    }
+  //   if(this.state.touched.annualLeave && (isNaN(annualLeave) || annualLeave === '')) {
+  //     error.annualLeave = 'Hãy nhập giá trị số'
+  //   }
 
-    if(this.state.touched.overTime && (isNaN(overTime) || overTime === '')) {
-      error.overTime = 'Hãy nhập giá trị số'
-    }
+  //   if(this.state.touched.overTime && (isNaN(overTime) || overTime === '')) {
+  //     error.overTime = 'Hãy nhập giá trị số'
+  //   }
 
-    return error
-  }
+  //   return error
+  // }
 
-  handleChange(event) {
-    const target = event.target
-    const value =  target.value
-    const name = target.name
-    this.setState({
-      [name]: value
-    })
-  }
-
-  handleSubmit(event) {
+  handleSubmit = (value) => {
+    console.log(value)
     this.toggleModal()
-    event.preventDefault()
 
     if (window.localStorage.getItem('staffID')) {
      window.localStorage.setItem('staffID', Number(window.localStorage.getItem('staffID')) + 1)     
@@ -132,7 +100,7 @@ class Staff extends Component {
     // window.localStorage.removeItem('newStaffs')
 
     let departmentSeted = this.props.departments.filter((dept) => {
-      if(this.state.departmentSelected === dept.name){
+      if(value.departmentSelected === dept.name){
         return dept
       }
     })[0]
@@ -140,17 +108,15 @@ class Staff extends Component {
       departmentSeted = {name: 'Chưa có phòng ban'}
     }
 
-    console.log(departmentSeted)
-
     const newStaff = {
       id: Number(window.localStorage.getItem('staffID')),
-      name: this.state.name,
-      doB: this.state.birthday,
-      salaryScale: this.state.salaryScale,
-      startDate: this.state.startDate,
+      name: value.name,
+      doB: value.birthday,
+      salaryScale: value.salaryScale,
+      startDate: value.startDate,
       department: departmentSeted,
-      annualLeave: this.state.annualLeave,
-      overTime: this.state.overTime,
+      annualLeave: value.annualLeave,
+      overTime: value.overTime,
       salary: 5000000,
       image: '/assets/images/alberto.png'
     }
@@ -165,11 +131,10 @@ class Staff extends Component {
       return JSON.parse(staff)
     })
 
-    console.log(addNewStaff)
-    this.props.mainComptSetState(addNewStaff)
+    this.props.mainComptSetState(addNewStaff[addNewStaff.length - 1])
   }
 
-  toggleModal() {
+  toggleModal = () => {
     this.setState({
       isModalOpen: !this.state.isModalOpen
     })
