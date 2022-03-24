@@ -251,9 +251,14 @@ class Staff extends Component {
                 <Label htmlFor='birthday'>Ngày sinh</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='date' model='.birthday' id='birthday' name='birthday' 
-                className='form-control'
+                <Input type='date' id='birthday' name='birthday' 
+                  value={this.state.birthday}
+                  onChange={this.handleChange}
+                  onBlur={this.handleBlur('birthday')}
+                  valid={error.birthday === ''}
+                  invalid={error.birthday !== ''}
                 />
+                <FormFeedback>{error.birthday}</FormFeedback>
               </div>
             </Row>
             <Row className='form-group row'>
