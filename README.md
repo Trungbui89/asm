@@ -1,1 +1,1 @@
-Sample cho toàn bộ lab và project trong môn học Lập Trình Web Front-End với React với đầy đủ dependency
+React RJS101x_Assignment2_trungbqfx13815@funix.edu.vn

@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import Staff from './staffsList/StaffListComponent';
-import { STAFFS } from './shared/staffs';
 import './App.css';
-import Nav from './components/Nav';
+import Main from './components/MainComponent';
 
 function App()  {
 
-  const [info] = useState(STAFFS);
-
   return (
-    <div className="App">
-      <Nav />
-      <Staff staffs={info}/>
-    </div>
+      <div>
+        <Main />
+      </div>
   );
 }
 
