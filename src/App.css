@@ -323,6 +323,10 @@ address{
     cursor: pointer;
 }
 
+.text-danger.error span {
+    display: block;
+}
+
 @media screen and (max-width: 991px) {
     .setting {
         display: none;

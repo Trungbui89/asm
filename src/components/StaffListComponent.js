@@ -3,9 +3,12 @@ import { Breadcrumb, BreadcrumbItem, Button, Input, Label, Modal, ModalBody, Mod
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
 
+const required = (val) => val && val.length
+const minLength = (len) => (val) => {return val && val.length >= len}
+const isNumber = (val) => !isNaN(Number(val))
+const salaryScaleRequired = (minLen, maxLen) => (val) => !isNaN(Number(val)) && (Number(val) >= minLen) && (Number(val) <= maxLen)
+
 class Staff extends Component {
-
-
 
   constructor(props) {
     super(props)
@@ -39,52 +42,6 @@ class Staff extends Component {
     this.toggleModal = this.toggleModal.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  // validate = (name, birthday, startDate, departmentSelected, salaryScale, annualLeave, overTime) => {
-  //   const error = {
-  //     name: '',
-  //     departmentSelected: '',
-  //     salaryScale: '',
-  //     annualLeave: '',
-  //     overTime: '',
-  //     birthday: '',
-  //     startDate: ''
-  //   }
-
-  //   if(this.state.touched.name && name.length < 3) {
-  //     error.name = 'Tên phải dài hơn 3 ký tự'
-  //   } else if (this.state.touched.name && name.length > 30){
-  //     error.name = 'Tên phải ít hơn 30 ký tự'
-  //   }
-
-  //   if(this.state.touched.birthday && birthday === '') {
-  //     error.birthday = 'Hãy chọn ngày sinh'
-  //   }
-
-  //   if(this.state.touched.startDate && startDate === '') {
-  //     error.startDate = 'Hãy chọn ngày vào Cty'
-  //   }
-
-  //   if(this.state.touched.departmentSelected && (departmentSelected === '-1' || departmentSelected === '')) {
-  //     error.departmentSelected = 'Hãy chọn phòng ban'
-  //   }
-    
-  //   if(this.state.touched.salaryScale && (isNaN(salaryScale) || salaryScale === '')) {
-  //     error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
-  //   } else if(this.state.touched.salaryScale && !isNaN(salaryScale) && (Number(salaryScale)<1 || Number(salaryScale)>3)) {
-  //     error.salaryScale = 'nhập giá trị số 1.0 -> 3.0'
-  //   }
-
-  //   if(this.state.touched.annualLeave && (isNaN(annualLeave) || annualLeave === '')) {
-  //     error.annualLeave = 'Hãy nhập giá trị số'
-  //   }
-
-  //   if(this.state.touched.overTime && (isNaN(overTime) || overTime === '')) {
-  //     error.overTime = 'Hãy nhập giá trị số'
-  //   }
-
-  //   return error
-  // }
 
   handleSubmit = (value) => {
     console.log(value)
@@ -207,7 +164,19 @@ class Staff extends Component {
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
                 <Control.text model='.name' id='name' name='name' 
-                className='form-control'
+                  className='form-control'
+                  validators={{
+                    required, minLength: minLength(3)
+                  }}
+                />
+                <Errors
+                  className='text-danger error'
+                  model='.name'
+                  show='touched'
+                  messages = {{
+                    required: 'Hãy nhập tên',
+                    minLength: 'Tên phải dài hơn 3 ký tự'
+                  }}
                 />
               </div>
             </Row>
@@ -216,14 +185,20 @@ class Staff extends Component {
                 <Label htmlFor='birthday'>Ngày sinh</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Input type='date' id='birthday' name='birthday' 
-                  value={this.state.birthday}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur('birthday')}
-                  valid={error.birthday === ''}
-                  invalid={error.birthday !== ''}
-                />
-                <FormFeedback>{error.birthday}</FormFeedback>
+                <Control.input type='date' model='.birthday' id='birthday' name='birthday' 
+                className='form-control'
+                validators={{
+                  required
+                }}
+              />
+              <Errors
+                className='text-danger error'
+                model='.birthday'
+                show='touched'
+                messages = {{
+                  required: 'Hãy nhập ngày sinh'
+                }}
+              />
               </div>
             </Row>
             <Row className='form-group row'>
@@ -231,9 +206,20 @@ class Staff extends Component {
                 <Label htmlFor='startDate'>Ngày vào công ty</Label>
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
-                <Control.date model='.startDate' id='startDate' name='startDate' 
+                <Control.input type='date' model='.startDate' id='startDate' name='startDate' 
                 className='form-control'
-                />
+                validators={{
+                  required
+                }}
+              />
+              <Errors
+                className='text-danger error'
+                model='.startDate'
+                show='touched'
+                messages = {{
+                  required: 'Hãy nhập ngày vào cty'
+                }}
+              />
               </div>
             </Row>
             <Row className='form-group row'>
@@ -246,14 +232,25 @@ class Staff extends Component {
                   className="form-control form-select form-select-lg" 
                   id='departmentSelected' 
                   name='departmentSelected'
+                  validators={{
+                    required
+                  }}
                 >
-                  <option value="-1" selected>chọn phòng ban</option>
+                  <option value='' selected>chọn phòng ban</option>
                   {this.state.department.map(department => {
                     return (
                       <option value={department}>{department}</option>
                     )
                   })}
                 </Control.select>
+                <Errors
+                  className='text-danger error'
+                  model='.departmentSelected'
+                  show='touched'
+                  messages = {{
+                    required: 'Hãy chọn phòng ban'
+                  }}
+                />
               </div>
             </Row>
             <Row className='form-group row'>
@@ -262,8 +259,21 @@ class Staff extends Component {
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
                 <Control.text model='.salaryScale' id='salaryScale' name='salaryScale' 
-                className='form-control'
+                  className='form-control'
+                  validators={{
+                    required, salaryScaleRequired: salaryScaleRequired(1, 3), isNumber
+                  }}
                 />
+                <Errors
+                  className='text-danger error'
+                  model='.salaryScale'
+                  show='touched'
+                  messages = {{
+                    required: 'Hãy nhập hệ số lương',
+                    salaryScaleRequired: 'Hệ số lương từ 1.0 -> 3.0',
+                    isNumber: 'Hãy nhập giá trị số'
+                  }}
+                />                
               </div>
             </Row>
             <Row className='form-group row'>
@@ -272,8 +282,20 @@ class Staff extends Component {
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
                 <Control.text model='.annualLeave' id='annualLeave' name='annualLeave' 
-                className='form-control'
+                  className='form-control'
+                  validators={{
+                    required, isNumber
+                  }}
                 />
+                <Errors
+                  className='text-danger error'
+                  model='.annualLeave'
+                  show='touched'
+                  messages = {{
+                    required: 'Hãy nhập số ngày nghỉ còn lại',
+                    isNumber: 'Hãy nhập giá trị số'
+                  }}
+                /> 
               </div>
             </Row>
             <Row className='form-group row'>
@@ -282,8 +304,20 @@ class Staff extends Component {
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
                 <Control.text model='.overTime' id='overTime' name='overTime' 
-                className='form-control'
+                  className='form-control'
+                  validators={{
+                    required, isNumber
+                  }}
                 />
+                <Errors
+                  className='text-danger error'
+                  model='.overTime'
+                  show='touched'
+                  messages = {{
+                    required: 'Hãy nhập số ngày nghỉ còn lại',
+                    isNumber: 'Hãy nhập giá trị số'
+                  }}
+                /> 
               </div>
             </Row>
             <Row className='form-group row justify-content-md-center'>
