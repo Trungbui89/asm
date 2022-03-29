@@ -1,29 +1,20 @@
-import { STAFFS, DEPARTMENTS } from '../../shared/staffs';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import { InitialFeedback } from './forms';
+import { createForms } from 'react-redux-form';
+import { Staffs } from './staffs';
 
-  let addNewStaffs = []
-  if(window.localStorage.getItem('newStaffs')){
-    addNewStaffs = window.localStorage.getItem('newStaffs').split(';').map((staff) => {
-      return JSON.parse(staff)
-    })
-  }
+export const rootReducer = () => {
+  const store = createStore(
+      combineReducers({
+          staffs: Staffs
+          // ...createForms({
+          //     feedback: InitialFeedback
+          // })
+      }),
+      applyMiddleware(thunk, logger)
+  );
 
-const initState = {
-    infos: STAFFS.concat(addNewStaffs),
-    department: DEPARTMENTS
+  return store;
 }
-const rootReducer = (state = initState, action) => {
-
-  switch (action.type) {
-    case 'add_staff':
-      let infos = state.infos
-      infos = infos.concat(action.payload)
-      return {
-        ...state, infos
-      }
-  
-    default:
-      return state
-  }
-}
-
-export default rootReducer
