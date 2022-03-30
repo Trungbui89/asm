@@ -4,11 +4,13 @@ import logger from 'redux-logger';
 import { InitialFeedback } from './forms';
 import { createForms } from 'react-redux-form';
 import { Staffs } from './staffs';
+import { Departments } from './departments';
 
 export const rootReducer = () => {
   const store = createStore(
       combineReducers({
-          staffs: Staffs
+          staffs: Staffs,
+          departments: Departments
           // ...createForms({
           //     feedback: InitialFeedback
           // })

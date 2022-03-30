@@ -1,132 +1,99 @@
 import React, { Component } from 'react'
-import { Breadcrumb, BreadcrumbItem, Button, Input, Label, Modal, ModalBody, ModalHeader, Row} from 'reactstrap'
+import { Breadcrumb, BreadcrumbItem, 
+  Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle,
+  Button, Input, Label, Modal, ModalBody, ModalHeader, Row} from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
+import { FadeTransform } from 'react-animation-components'
+import { Loading } from './LoadingComponent'
 
-const required = (val) => val && val.length
-const minLength = (len) => (val) => {return val && val.length >= len}
-const isNumber = (val) => !isNaN(Number(val))
-const salaryScaleRequired = (minLen, maxLen) => (val) => !isNaN(Number(val)) && (Number(val) >= minLen) && (Number(val) <= maxLen)
+// const required = (val) => val && val.length
+// const minLength = (len) => (val) => {return val && val.length >= len}
+// const isNumber = (val) => !isNaN(Number(val))
+// const salaryScaleRequired = (minLen, maxLen) => (val) => !isNaN(Number(val)) && (Number(val) >= minLen) && (Number(val) <= maxLen)
 
-class Staff extends Component {
+function RenderCard(item) {
+  <Card>
+    <CardImg src={item.image} alt={item.name} />
+    <CardBody>
+      <CardTitle>{item.name}</CardTitle>
+    </CardBody>
+  </Card>
+}
 
-  constructor(props) {
-    super(props)
+const Staffs = (props) => {
 
-    this.state = {
-      staffList: this.props.staffs.map((staff) => {
-        return (
-          <div className="col-6 col-md-4 col-lg-2">
-            <Link to={`/staff/${staff.id}`} >
-              <div className='staff-card'>
-                  <div className="img">
-                    <img src={staff.image} alt={staff.name} />
-                  </div>
-                  <div className="staffName">
-                      <p>{staff.name}</p>
-                  </div>
-              </div>
-            </Link>
-          </div>
-        )
-      }),
-      isModalOpen: false,
-      department: this.props.departments.map((department) => {
-        return (
-          department.name
-        )
-      }),
-    }
+    // this.state = {
+    //   isModalOpen: false
+    // }
 
-    this.searchStaff = this.searchStaff.bind(this)
-    this.toggleModal = this.toggleModal.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
 
-  handleSubmit = (value) => {
-    console.log(value)
-    this.toggleModal()
+  // handleSubmit = (value) => {
+  //   console.log(value)
+  //   this.toggleModal()
+  // }
 
-    if (window.localStorage.getItem('staffID')) {
-     window.localStorage.setItem('staffID', Number(window.localStorage.getItem('staffID')) + 1)     
-    } else {
-      window.localStorage.setItem('staffID', this.props.staffs[this.props.staffs.length - 1].id + 1)
-    }
-
-    // window.localStorage.removeItem('staffID')
-    // window.localStorage.removeItem('newStaffs')
-
-    let departmentSeted = this.props.departments.filter((dept) => {
-      if(value.departmentSelected === dept.name){
-        return dept
-      }
-    })[0]
-    if(departmentSeted == undefined) {
-      departmentSeted = {name: 'Chưa có phòng ban'}
-    }
-
-    const newStaff = {
-      id: Number(window.localStorage.getItem('staffID')),
-      name: value.name,
-      doB: value.birthday,
-      salaryScale: value.salaryScale,
-      startDate: value.startDate,
-      department: departmentSeted,
-      annualLeave: value.annualLeave,
-      overTime: value.overTime,
-      salary: 5000000,
-      image: '/assets/images/alberto.png'
-    }
-
-    if (window.localStorage.getItem('newStaffs')) {
-      window.localStorage.setItem('newStaffs', window.localStorage.getItem('newStaffs').concat(';', JSON.stringify(newStaff)))
-    } else {
-      window.localStorage.setItem('newStaffs', JSON.stringify(newStaff))
-    }
-
-    const addNewStaff = window.localStorage.getItem('newStaffs').split(';').map((staff) => {
-      return JSON.parse(staff)
-    })
-
-    this.props.mainComptSetState(addNewStaff[addNewStaff.length - 1])
-  }
-
-  toggleModal = () => {
-    this.setState({
-      isModalOpen: !this.state.isModalOpen
-    })
-  }
+  // toggleModal = () => {
+  //   this.setState({
+  //     isModalOpen: !this.state.isModalOpen
+  //   })
+  // }
   
-  searchStaff = (value) => {
-    const staffFilted = this.props.staffs.filter((staff) => {
-      return (
-        staff.name.toLowerCase().search(value.username.toLowerCase()) > -1
-      )
-    })
-    this.setState({staffList: staffFilted.map((staff) => {
-        return (
-          <div className="col-6 col-md-4 col-lg-2">
-            <Link to={`/staff/${staff.id}`} >
-              <div className='staff-card'>
-                  <div className="img">
-                    <img src={staff.image} alt={staff.name} />
-                  </div>
-                  <div className="staffName">
-                      <p>{staff.name}</p>
+  // searchStaff = (value) => {
+  //   const staffFilted = this.props.staffs.filter((staff) => {
+  //     return (
+  //       staff.name.toLowerCase().search(value.username.toLowerCase()) > -1
+  //     )
+  //   })
+  //   this.setState({staffList: staffFilted.map((staff) => {
+  //       return (
+  //         <div className="col-6 col-md-4 col-lg-2">
+  //           <Link to={`/staff/${staff.id}`} >
+  //             <div className='staff-card'>
+  //                 <div className="img">
+  //                   <img src={staff.image} alt={staff.name} />
+  //                 </div>
+  //                 <div className="staffName">
+  //                     <p>{staff.name}</p>
+  //                 </div>
+  //             </div>
+  //           </Link>
+  //         </div>
+  //       )
+  //     })
+  //   }) 
+  // }
+
+  const staffs = props.staffs.map((staff) => {
+    return (
+      <div key={staff.id} className="col-12 col-md-5 m-1">
+          <RenderCard staff={staff}/>
+      </div>
+    );
+  });
+
+  if (props.staffs.isLoading) {
+    return(
+        <div className="container">
+            <div className="row">            
+                <Loading />
+            </div>
+        </div>
+    );
+  }
+  else if (props.staffs.errMess) {
+      return(
+          <div className="container">
+              <div className="row"> 
+                  <div className="col-12">
+                      <h4>{props.staffs.errMess}</h4>
                   </div>
               </div>
-            </Link>
           </div>
-        )
-      })
-    }) 
+      );
   }
-
-  render() {
-    
-    const staffList = this.state.staffList
- 
-    return (
+  else
+  return (
     <React.Fragment>
       <div className='staff-list container'>
         <div className='row breadcrumb-container'>
@@ -137,21 +104,23 @@ class Staff extends Component {
         <div className='row'>
             <div className='col-6 tittle-container'>
               <h3>Nhân Viên</h3>
-              <div className='addBtn' onClick={this.toggleModal}>
+              <div className='addBtn'>
+              {/* <div className='addBtn' onClick={this.toggleModal}> */}
                 <i className="fa fa-plus"></i>
               </div>
             </div>
-            <LocalForm className='col-6 search-container' onSubmit={(values) => this.searchStaff(values)}>
+            <LocalForm className='col-6 search-container'>
+            {/* <LocalForm className='col-6 search-container' onSubmit={(values) => this.searchStaff(values)}> */}
               <Control.text model='.username' className='form-control' id='username' name='username' innerRef={(input) => this.username = input} />
               <Button type='submit' value='submit' className="fa fa-search fa-lg"></Button> 
             </LocalForm>
         </div>
         <hr />
         <div className="row staffListRender">
-            {staffList}
+          <RenderCard items={props.staffs} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
         </div>
       </div>
-      <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+      {/* <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
         <ModalHeader>
           <div>Thêm Nhân Viên</div>
           <i className="fa fa-times" onClick={this.toggleModal}></i>
@@ -327,10 +296,10 @@ class Staff extends Component {
             </Row>
           </LocalForm>
         </ModalBody>
-      </Modal>
+      </Modal> */}
     </React.Fragment>
     )
-  }
+  
 }
 
-export default Staff;
+export default Staffsssssssssssssssssssssssssssssssssssssss;

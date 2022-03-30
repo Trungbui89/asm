@@ -3,7 +3,10 @@ import dateFormat from "dateformat";
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-  const StaffDetail = ({staff}) => {
+  const StaffDetail = (props) => {
+    const staff = props.staff
+    const department = props.department
+
     return(   
         <div className="container">
             <div className='row breadcrumb-container'>
@@ -22,7 +25,7 @@ import { Link } from 'react-router-dom';
                     <h3>Họ tên: {staff.name}</h3>
                     <p>Ngày Sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
                     <p>Ngày Vào Công Ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-                    <p>Phòng Ban: {staff.department.name}</p>
+                    <p>Phòng Ban: {department.name}</p>
                     <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
                     <p>Số ngày đã làm thêm: {staff.overTime}</p>
                 </div>

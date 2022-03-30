@@ -15,26 +15,10 @@ export const Staffs = (state = {
         case ActionTypes.STAFFS_FAILED:
             return {...state, isLoading: false, errMess: action.payload, staffs: []};
 
+        case ActionTypes.ADD_NEW_STAFF:
+            return {...state, isLoading: false, staffs: state.staffs.concat(action.payload)}
+
         default:
             return state;
     }
-};
-
-// const initState = {
-//     infos: STAFFS.concat(addNewStaffs),
-//     department: DEPARTMENTS
-// }
-// const rootReducer = (state = initState, action) => {
-
-//   switch (action.type) {
-//     case 'add_staff':
-//       let infos = state.infos
-//       infos = infos.concat(action.payload)
-//       return {
-//         ...state, infos
-//       }
-  
-//     default:
-//       return state
-//   }
-// }
+}
