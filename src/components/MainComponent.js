@@ -3,13 +3,14 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Staffs from './staffPage/StaffListComponent';
 import StaffDetail from './staffPage/StaffDetail';
-import Department from './DepartmentComponent';
+import Department from './departmentPage/DepartmentComponent';
+import DepartmentDetail from './departmentPage/DepartmentDetail';
 import Salary from './Salary';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 import { actions } from 'react-redux-form';
-import { fetchStaffs, fetchDepartments, postStaff } from '../store/actions/ActionCreators';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { fetchStaffs, fetchDepartments, postStaff, patchStaff, deleteStaff } from '../store/actions/ActionCreators';
+// import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = (state) => {
   return {
@@ -22,17 +23,17 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => {dispatch(fetchStaffs())},
   fetchDepartments: () => {dispatch(fetchDepartments())},
   resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
+  resetUpdateFeedbackForm: () => { dispatch(actions.reset('updateFeedBack'))},
   postStaff: (id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary) =>
-    dispatch(postStaff(id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary))
+    dispatch(postStaff(id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary)),
+  patchStaff: (id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary) =>
+    dispatch(patchStaff(id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary)),
+  deleteStaff: (id)=> dispatch(deleteStaff(id))
 })
 
 // main class
 
 class Main extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.props.fetchStaffs()
@@ -43,18 +44,32 @@ class Main extends Component {
 
   render() {
     const StaffId = ({match}) => {
-      console.log(this.props)
-
       return (
         <StaffDetail staff={this.props.staffs.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10))[0]} 
           staffsLoading={this.props.staffs.isLoading}
           staffsErrMess={this.props.staffs.errMess}
-          department={this.props.departments.departments.filter((department) => 
-              department.id === this.props.staffs.staffs[parseInt(match.params.staffId,10)].departmentId)[0]}
+          departments={this.props.departments.departments}
           departmentLoading={this.props.departments.isLoading}
           departmentErrMess={this.props.departments.errMess}
-        />
+          resetUpdateFeedbackForm={this.props.resetUpdateFeedbackForm}
+          patchStaff={this.props.patchStaff}
+          deleteStaff={this.props.deleteStaff}
+        >
+        </StaffDetail>
       )
+    }
+
+    const departmentId = ({match}) => {
+        return (
+          <DepartmentDetail
+            department={this.props.departments.departments.filter((department) => department.id === match.params.departmentId)[0]}
+            departmentLoading={this.props.departments.isLoading}
+            departmentErrMess={this.props.departments.errMess}
+            staffs={this.props.staffs.staffs}
+            staffsLoading={this.props.staffs.isLoading}
+            staffsErrMess={this.props.staffs.errMess}
+          />
+        )
     }
           
     const HomeStaffs = () => {
@@ -79,6 +94,7 @@ class Main extends Component {
             <Route exact path='/department' component={() => <Department 
               departments={this.props.departments.departments}
             /> }/>
+            <Route path='/departments/:departmentId' component={departmentId} />
             <Route exact path='/salary' component={() => <Salary 
               staffs={this.props.staffs.staffs}
             />} />

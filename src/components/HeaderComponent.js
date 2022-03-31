@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, Jumbotron, NavItem } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 function Header() {
@@ -15,7 +15,7 @@ function Header() {
             <Navbar dark expand='md'>
                 <div className="container">
                     <NavbarBrand className='mr-auto' href="/">
-                        <img src="assets/images/logo512.png" height='30px'/>
+                        <img src="assets/images/logo512.png" height='30px' alt="logo"/>
                     </NavbarBrand>
                     <NavbarToggler onClick={toggleNav} />
                     <Collapse isOpen={state} navbar>

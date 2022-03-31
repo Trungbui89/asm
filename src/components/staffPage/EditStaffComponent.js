@@ -7,9 +7,9 @@ const minLength = (len) => (val) => {return val && val.length >= len}
 const isNumber = (val) => !isNaN(Number(val))
 const salaryScaleRequired = (minLen, maxLen) => (val) => !isNaN(Number(val)) && (Number(val) >= minLen) && (Number(val) <= maxLen)
 
-const handleSubmit = (value, props) => {
-    props.postStaff(
-        props.staffs[props.staffs.length - 1].id, 
+const handleEdit = (value, props) => {
+    props.patchStaff(
+        props.staff.id, 
         value.name, 
         value.doB, 
         value.salaryScale, 
@@ -20,21 +20,19 @@ const handleSubmit = (value, props) => {
         "/assets/images/alberto.png", 
         5000000
     )
-        // console.log(props)
     props.clickFunction()
-    props.resetFeedbackForm()
+    props.resetUpdateFeedbackForm()
   }
 
-function AddStaffModal(props) {
-
+function EditStaffModal(props) {
     return (
         <React.Fragment>
         <ModalHeader>
-          <div>Thêm Nhân Viên</div>
+          <div>Sửa Thông Tin</div>
           <i className="fa fa-times" onClick={props.clickFunction}></i>
         </ModalHeader>
         <ModalBody>
-          <Form model='feedback' onSubmit={(values) => handleSubmit(values, props)}>
+          <Form model='updateFeedBack' onSubmit={(values) => handleEdit(values, props)}>
             <Row className='form-group row'>
               <div className='col-12 col-md-4 col-lg-4'>
                 <Label htmlFor='name'>Tên</Label>
@@ -200,7 +198,7 @@ function AddStaffModal(props) {
             </Row>
             <Row className='form-group row justify-content-md-center'>
               <div className='col-3'>
-                <Button type='submit' value='submit' color='primary'>Thêm</Button>
+                <Button type='submit' value='submit' color='primary'>Sửa Thông Tin</Button>
               </div>
             </Row>
           </Form>
@@ -209,4 +207,4 @@ function AddStaffModal(props) {
     )
 }
 
-export default AddStaffModal
+export default EditStaffModal

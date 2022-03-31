@@ -18,6 +18,9 @@ export const Staffs = (state = {
         case ActionTypes.ADD_NEW_STAFF:
             return {...state, isLoading: false, staffs: action.payload}
 
+        case ActionTypes.EDIT_STAFF:
+            return {...state, isLoading: false, staffs: action.payload}
+
         default:
             return state;
     }

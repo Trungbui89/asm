@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import { Breadcrumb, BreadcrumbItem, 
-  Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle,
-  Button, Input, Label, Modal, Row} from 'reactstrap'
+import { Breadcrumb, BreadcrumbItem, Card, CardImg, CardBody, CardTitle, Button, Modal } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import { Control, LocalForm, Errors } from 'react-redux-form'
+import { Control, LocalForm } from 'react-redux-form'
 import { FadeTransform } from 'react-animation-components'
 import { Loading } from '../LoadingComponent'
 import AddStaffModal from './AddStaffComponent'
@@ -43,15 +41,14 @@ function RenderCard({staff, isLoading, errMess}) {
 
 // search staff
 
-  const searchStaff = (value, staffsState, setStaffsState, props) => {
+  const searchStaff = (value, setStaffsState, props) => {
 
     const staffsFilter = props.staffs.map((staff) => {
       if(staff.name.toLowerCase().search(value.username.toLowerCase()) > -1) {
-        console.log(staff)
         return (staff)
-      } 
+      }
     })
-    setStaffsState(staffsFilter) 
+    setStaffsState(staffsFilter)
   }
 
 // Main
@@ -66,12 +63,14 @@ const Staffs = (props) => {
   }
 
   const staffs = staffsState.map((staff) => {
-    return (
-        <RenderCard className="col-12 col-md-5 m-1" key={staff.id} staff={staff} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
-    );
+    if(staff !== undefined){
+      return (
+          <RenderCard className="col-12 col-md-5 m-1" key={staff.id} staff={staff} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
+      )
+    }
   });
 
-  if (props.staffs.isLoading) {
+  if (props.staffsLoading) {
     return(
         <div className="container">
             <div className="row">            
@@ -80,7 +79,7 @@ const Staffs = (props) => {
         </div>
     );
   }
-  else if (props.staffs.errMess) {
+  else if (props.staffsErrMess) {
       return(
           <div className="container">
               <div className="row"> 
@@ -107,7 +106,7 @@ const Staffs = (props) => {
                 <i className="fa fa-plus"></i>
               </div>
             </div>
-            <LocalForm className='col-6 search-container' onSubmit={(values) => searchStaff(values, staffsState, setStaffsState, props)}>
+            <LocalForm className='col-6 search-container' onSubmit={(values) => searchStaff(values, setStaffsState, props)}>
               <Control.text model='.username' className='form-control' id='username' name='username' />
               <Button type='submit' value='submit' className="fa fa-search fa-lg"></Button> 
             </LocalForm>
@@ -126,7 +125,6 @@ const Staffs = (props) => {
             resetFeedbackForm={props.resetFeedbackForm}
         />
       </Modal>
-
     </React.Fragment>
     )
   

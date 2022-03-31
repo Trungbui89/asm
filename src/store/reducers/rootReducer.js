@@ -5,6 +5,7 @@ import { AddStaffFormsFeedback } from './addStaffForms';
 import { createForms } from 'react-redux-form';
 import { Staffs } from './staffs';
 import { Departments } from './departments';
+import { EditStaffFormsFeedback } from './editStaffForms'
 
 export const rootReducer = () => {
   const store = createStore(
@@ -12,8 +13,9 @@ export const rootReducer = () => {
           staffs: Staffs,
           departments: Departments,
           ...createForms({
-              feedback: AddStaffFormsFeedback
-          })
+              feedback: AddStaffFormsFeedback,
+              updateFeedBack: EditStaffFormsFeedback
+          }),
       }),
       applyMiddleware(thunk, logger)
   );
