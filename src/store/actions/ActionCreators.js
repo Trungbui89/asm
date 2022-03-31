@@ -125,7 +125,10 @@ export const postStaff = (
             throw errmess;
       })
     .then(response => response.json())
-    .then(staff => dispatch(addNewStaff(staff)))
+    .then(staff => {
+      // console.log(staff)
+      dispatch(addNewStaff(staff))
+    })
     .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
 
 }

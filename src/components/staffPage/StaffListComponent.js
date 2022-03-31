@@ -41,21 +41,33 @@ function RenderCard({staff, isLoading, errMess}) {
   )
 }
 
+// search staff
+
+  const searchStaff = (value, staffsState, setStaffsState, props) => {
+
+    const staffsFilter = props.staffs.map((staff) => {
+      if(staff.name.toLowerCase().search(value.username.toLowerCase()) > -1) {
+        console.log(staff)
+        return (staff)
+      } 
+    })
+    setStaffsState(staffsFilter) 
+  }
+
 // Main
 
 const Staffs = (props) => {
 
   const [modalState, setModalState] = useState(false)
+  const [staffsState, setStaffsState] = useState(props.staffs)
 
   const toggleModal = () => {
     setModalState(!modalState)
   }
 
-  const staffs = props.staffs.map((staff) => {
+  const staffs = staffsState.map((staff) => {
     return (
-      <div key={staff.id} className="col-12 col-md-5 m-1">
-          <RenderCard staff={staff} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
-      </div>
+        <RenderCard className="col-12 col-md-5 m-1" key={staff.id} staff={staff} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
     );
   });
 
@@ -95,8 +107,8 @@ const Staffs = (props) => {
                 <i className="fa fa-plus"></i>
               </div>
             </div>
-            <LocalForm className='col-6 search-container'>
-              <Control.text model='.username' className='form-control' id='username' name='username' innerRef={(input) => this.username = input} />
+            <LocalForm className='col-6 search-container' onSubmit={(values) => searchStaff(values, staffsState, setStaffsState, props)}>
+              <Control.text model='.username' className='form-control' id='username' name='username' />
               <Button type='submit' value='submit' className="fa fa-search fa-lg"></Button> 
             </LocalForm>
         </div>
@@ -106,7 +118,13 @@ const Staffs = (props) => {
         </div>
       </div>
       <Modal isOpen={modalState} toggle={toggleModal}>
-        <AddStaffModal staffs={props.staffs} departments={props.departments} clickFunction={toggleModal} postStaff={props.postStaff}/>
+        <AddStaffModal 
+            staffs={props.staffs} 
+            departments={props.departments} 
+            clickFunction={toggleModal} 
+            postStaff={props.postStaff}
+            resetFeedbackForm={props.resetFeedbackForm}
+        />
       </Modal>
 
     </React.Fragment>

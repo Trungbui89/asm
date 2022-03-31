@@ -65,6 +65,7 @@ class Main extends Component {
           staffsErrMess={this.props.staffs.errMess}
           departments={this.props.departments.departments}
           postStaff={this.props.postStaff}
+          resetFeedbackForm={this.props.resetFeedbackForm}
         />
       )
     }
@@ -75,12 +76,12 @@ class Main extends Component {
           <Switch location={this.props.location}>
             <Route exact path='/staff' component={HomeStaffs}/>
             <Route path='/staff/:staffId' component={StaffId} />
-            {/* <Route exact path='/department' component={() => <Department 
-            departments={this.props.department}
+            <Route exact path='/department' component={() => <Department 
+              departments={this.props.departments.departments}
             /> }/>
             <Route exact path='/salary' component={() => <Salary 
-            staffs={this.props.infos}
-            />} /> */}
+              staffs={this.props.staffs.staffs}
+            />} />
             <Redirect to='/staff' />
           </Switch>
         <Footer />

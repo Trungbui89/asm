@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Input, Label, ModalBody, ModalHeader, Row} from 'reactstrap'
-import { Control, LocalForm, Errors } from 'react-redux-form'
+import { Control, Form, Errors, action } from 'react-redux-form'
 
 const required = (val) => val && val.length
 const minLength = (len) => (val) => {return val && val.length >= len}
@@ -8,7 +8,6 @@ const isNumber = (val) => !isNaN(Number(val))
 const salaryScaleRequired = (minLen, maxLen) => (val) => !isNaN(Number(val)) && (Number(val) >= minLen) && (Number(val) <= maxLen)
 
 const handleSubmit = (value, props) => {
-    // console.log(props)
     props.postStaff(
         props.staffs[props.staffs.length - 1].id, 
         value.name, 
@@ -21,7 +20,9 @@ const handleSubmit = (value, props) => {
         "/assets/images/alberto.png", 
         5000000
     )
+        // console.log(props)
     props.clickFunction()
+    props.resetFeedbackForm()
   }
 
 function AddStaffModal(props) {
@@ -33,7 +34,7 @@ function AddStaffModal(props) {
           <i className="fa fa-times" onClick={props.clickFunction}></i>
         </ModalHeader>
         <ModalBody>
-          <LocalForm onSubmit={(values) => handleSubmit(values, props)}>
+          <Form model='feedback' onSubmit={(values) => handleSubmit(values, props)}>
             <Row className='form-group row'>
               <div className='col-12 col-md-4 col-lg-4'>
                 <Label htmlFor='name'>Tên</Label>
@@ -104,6 +105,7 @@ function AddStaffModal(props) {
               </div>
               <div className='col-12 col-md-8 col-lg-8'>
                 <Control.select 
+                  defaultValue=""
                   model='.departmentSelected' 
                   className="form-control form-select form-select-lg" 
                   id='departmentSelected' 
@@ -112,7 +114,7 @@ function AddStaffModal(props) {
                     required
                   }}
                 >
-                  <option value="" selected>chọn phòng ban</option>
+                  <option value="" disabled>chọn phòng ban</option>
                   {props.departments.map(department => {
                     return (
                       <option key={department.id} value={department.id}>{department.name}</option>
@@ -201,7 +203,7 @@ function AddStaffModal(props) {
                 <Button type='submit' value='submit' color='primary'>Thêm</Button>
               </div>
             </Row>
-          </LocalForm>
+          </Form>
         </ModalBody>
       </React.Fragment>
     )
