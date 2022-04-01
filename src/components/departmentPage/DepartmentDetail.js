@@ -1,7 +1,6 @@
 import React from 'react'
 import { Breadcrumb, BreadcrumbItem, 
-  Card, CardImg, CardBody, CardTitle} from 'reactstrap'
-import { FadeTransform } from 'react-animation-components'
+  Card, CardBody, CardTitle} from 'reactstrap'
 import { Loading } from '../LoadingComponent'
 import { Link } from 'react-router-dom'
 
@@ -22,18 +21,20 @@ function RenderCard({staff, isLoading, errMess}) {
   }
   else 
   return (
-    <FadeTransform
-        in
-        transformProps={{
-            exitTransform: 'scale(0.5) translateY(-50%)'
-        }}>
-          <Card>
-              <CardImg src={staff.image} alt={staff.name} />
-              <CardBody>
-                <CardTitle>{staff.name}</CardTitle>
-              </CardBody>
-          </Card>
-    </FadeTransform>
+    <div className="col-12 col-md-6 col-lg-4">
+            <Card>
+              <div className='like-archor'>
+                  <div className='cards-img-background'/>
+                  <div className='cards-img-border'/>
+                  <div className='cards-img'>
+                    <img className="img-fluid" src={staff.image} alt={staff.name} />
+                  </div>
+                  <CardBody>
+                    <CardTitle>{staff.name}</CardTitle>
+                  </CardBody>
+              </div>
+            </Card>
+    </div>
   )
 }
 
@@ -65,7 +66,7 @@ const DepartmentDetail = (props) => {
     const staffs = props.staffs.map((staff) => {
       if(staff.departmentId === props.department.id){
         return (
-            <RenderCard className="col-12 col-md-5 m-1" key={staff.id} staff={staff} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
+            <RenderCard key={staff.id} staff={staff} isLoading={props.staffsLoading} errMess={props.staffsErrMess} />
         )
       } else return null
     })
@@ -96,7 +97,7 @@ const DepartmentDetail = (props) => {
         <div className='row breadcrumb-container'>
           <Breadcrumb>
             <BreadcrumbItem><Link to='/department'>Phòng Ban</Link></BreadcrumbItem>
-            <BreadcrumbItem active>Nhân Viên</BreadcrumbItem>
+            <BreadcrumbItem active>{props.department.name}</BreadcrumbItem>
           </Breadcrumb>
         </div>
         <hr />

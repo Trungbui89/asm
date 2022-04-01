@@ -22,7 +22,7 @@ function Department(props) {
     })
 
   return (
-    <div className='staff-list container'>
+    <div className='container departments'>
       <div className='row breadcrumb-container'>
         <Breadcrumb>
           <BreadcrumbItem active>Phòng Ban</BreadcrumbItem>

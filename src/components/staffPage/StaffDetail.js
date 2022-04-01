@@ -45,7 +45,7 @@ const StaffDetail = (props) => {
 
         return(
             <React.Fragment>
-                <div className="container">
+                <div className="container staff-detail">
                     <div className='row breadcrumb-container'>
                         <Breadcrumb>
                             <BreadcrumbItem><Link to='/staff'>Nhân Viên</Link></BreadcrumbItem>
@@ -54,7 +54,12 @@ const StaffDetail = (props) => {
                     </div>
                     <div className="modal-container row">
                         <div className="img col-12 col-md-4 col-lg-3">
-                            <img src={staff.image} alt={staff.name} />
+                            <div className='img-container'>
+                                <img src={staff.image} alt={staff.name} />
+                            </div>
+                            <div className='bg-img'>
+                                <img src={staff.image} alt={staff.name} />
+                            </div>
                         </div>
                         <div className="info col-12 col-md-6 col-lg-7">
                             <h3>Họ tên: {staff.name}</h3>
@@ -68,10 +73,8 @@ const StaffDetail = (props) => {
                             <div className="edit-staff-icon" onClick={toggleModal}>
                                 <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </div>
-                            <Link to={`/staff`}>
-                                <div className="delete-staff-icon" onClick={delStaff}>
-                                    <i className="fa fa-times" aria-hidden="true"></i>
-                                </div>
+                            <Link to={`/staff`} className='del-staff-link' onClick={delStaff}>
+                                <i className="fa fa-times" aria-hidden="true"></i>
                             </Link>
                         </div>
                     </div>

@@ -28,7 +28,7 @@ function Salary(props) {
       })
 
     return (
-      <div className='staff-list container'>
+      <div className='container'>
         <div className='row breadcrumb-container'>
           <Breadcrumb>
             <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>

@@ -12,43 +12,36 @@ function Header() {
 
     return (
         <React.Fragment>
-            <Navbar dark expand='md'>
+            <Navbar expand='md'>
                 <div className="container">
                     <NavbarBrand className='mr-auto' href="/">
-                        <img src="assets/images/logo512.png" height='30px' alt="logo"/>
+                        <img src="assets/images/logo512.png" alt="logo"/>
                     </NavbarBrand>
                     <NavbarToggler onClick={toggleNav} />
                     <Collapse isOpen={state} navbar>
                         <Nav navbar>
                             <NavItem>
                                 <NavLink className='nav-link' to='/staff'>
-                                    <span className="fa fa-home fa-lg"></span> Nhân Viên
+                                    <span className="fa fa-home fa-lg"></span>
+                                    <p>NHÂN VIÊN</p>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink className='nav-link' to='/department'>
-                                    <span className="fa fa-info fa-lg"></span> Phòng Ban
+                                    <span className="fa fa-info fa-lg"></span> 
+                                    <p>PHÒNG BAN</p>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink className='nav-link' to='/salary'>
-                                    <span className="fa fa-list fa-lg"></span> Bảng Lương
+                                    <span className="fa fa-list fa-lg"></span> 
+                                    <p>BẢNG LƯƠNG</p>
                                 </NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
                 </div>
             </Navbar>
-            {/* <Jumbotron>
-                <div className="container">
-                    <div className="row row-header">
-                        <div className="col-12 col-sm-6">
-                            <h1>Ristorante con Fusion</h1>
-                            <p>We take inspiration from the World's best cuisines, and create a unique fusion experience. Our lipsmacking creations will tickle your culinary senses!</p>
-                        </div>
-                    </div>
-                </div>
-            </Jumbotron> */}
         </React.Fragment>
     )
 }
