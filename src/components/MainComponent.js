@@ -7,21 +7,23 @@ import Department from './departmentPage/DepartmentComponent';
 import DepartmentDetail from './departmentPage/DepartmentDetail';
 import Salary from './Salary';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'; 
 import { actions } from 'react-redux-form';
-import { fetchStaffs, fetchDepartments, postStaff, patchStaff, deleteStaff } from '../store/actions/ActionCreators';
-// import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { fetchStaffs, fetchDepartments, postStaff, patchStaff, deleteStaff, fetchRenderSalary } from '../store/actions/ActionCreators';
 
 const mapStateToProps = (state) => {
   return {
     staffs: state.staffs,
-    departments: state.departments
+    departments: state.departments,
+    salaries: state.salaries
   }  
 }
 
 const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => {dispatch(fetchStaffs())},
   fetchDepartments: () => {dispatch(fetchDepartments())},
+  fetchRenderSalary: () => {dispatch(fetchRenderSalary())},
   resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
   resetUpdateFeedbackForm: () => { dispatch(actions.reset('updateFeedBack'))},
   postStaff: (id, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary) =>
@@ -38,6 +40,7 @@ class Main extends Component {
   componentDidMount() {
     this.props.fetchStaffs()
     this.props.fetchDepartments()
+    this.props.fetchRenderSalary()
   }
 
   // render
@@ -71,6 +74,16 @@ class Main extends Component {
           />
         )
     }
+
+    const Salaries = () => {
+      return (
+        <Salary 
+          staffs={this.props.salaries.salaries}
+          salariesLoading={this.props.salaries.isLoading}
+          salariesErrMess={this.props.salaries.errMess}
+        />
+      )
+    }
           
     const HomeStaffs = () => {
       return(
@@ -88,18 +101,20 @@ class Main extends Component {
     return (
       <div className="Main">
         <Header />
-          <Switch location={this.props.location}>
-            <Route exact path='/staff' component={HomeStaffs}/>
-            <Route path='/staff/:staffId' component={StaffId} />
-            <Route exact path='/department' component={() => <Department 
-              departments={this.props.departments.departments}
-            /> }/>
-            <Route path='/departments/:departmentId' component={departmentId} />
-            <Route exact path='/salary' component={() => <Salary 
-              staffs={this.props.staffs.staffs}
-            />} />
-            <Redirect to='/staff' />
-          </Switch>
+        <TransitionGroup>
+          <CSSTransition key={this.props.location.key} classNames='page' timeout={300}>
+            <Switch>
+              <Route exact path='/staff' component={HomeStaffs}/>
+              <Route path='/staff/:staffId' component={StaffId} />
+              <Route exact path='/department' component={() => <Department 
+                departments={this.props.departments.departments}
+              /> }/>
+              <Route path='/departments/:departmentId' component={departmentId} />
+              <Route exact path='/salary' component={Salaries} />
+              <Redirect to='/staff' />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
         <Footer />
       </div>
     )

@@ -38,6 +38,37 @@
 	}
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.page-enter {
+    opacity: .01;
+    transform: translateX(-100%);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all .3s ease-in;
+}
+
+.page-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.page-exit-active {
+    opacity: .01;
+    transform: translateX(100%);
+    transition: all .3s ease-out;
+}
+
 .row {
     justify-content: space-around;
 }
@@ -128,7 +159,7 @@
 /* Background */
 
 .Main {
-    background: #000 url('/assets/images/pexels.jpg') no-repeat fixed center/100% ;
+    background: #000 url('/assets/images/pexels.jpg') no-repeat fixed center/cover;
 }
 
 /* Nav */
@@ -666,7 +697,6 @@
             0 7px 8px -5px rgb(233 30 99 / 20%);
 	background-size: 400% 400%;
 	animation: gradient-back 1s ease forwards;
-
 }
 
 .departments .card-body:hover .header{
@@ -700,11 +730,114 @@
     margin-top: 15px;
 }
 
+/* salary */
+
+.salary .card-container {
+    margin-top: 65px;
+}
+
+.salary .card {
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: .2857rem;
+    background: #27293d;
+    position: relative;
+    width: 100%;
+    margin-bottom: 65px;
+    box-shadow: 0 1px 20px 0 rgba(0,0,0,.1);
+}
+
+.salary .card .salary-bg{
+    border: rgba(255, 255, 255, 0.8) solid 1px;
+    border-radius: 5px;
+}
+
 /* media responsive */
 
 @media (min-width: 768px) {
     .nav-item {
         padding-right: 5px;
         padding-left: 5px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+    .Main {
+        background: #000 url('/assets/images/pexels.jpg') no-repeat fixed center/cover;
+    }
+
+    .footer{
+        padding: 20px 0px 0px 0px;
+        color: #fff;
+        height: 250px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer h5 {
+        font-size: 26px;
+        margin-bottom: 19.5px;
+    }
+    
+    .footer address {
+        color: #fff;
+        font-size: 13px;
+    }
+    
+    .footer .mobile,
+    .footer .phone,
+    .footer .email {
+        display: flex;
+        align-items: center;
+        margin-bottom: 24px;
+        font-size: 12px;
+    }
+    
+    .footer .mobile {
+        margin-top: 5px;
+        position: relative;
+        left: 28.5px;
+    }
+    
+    .footer .email {
+        position: relative;
+        left: -34px;
+    }
+
+    /* social icon */
+
+    .socical-icon {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        left: 25px;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    .Main {
+        background: #000 url('/assets/images/pexels.jpg') no-repeat fixed center/cover;
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+    }
+      
+    .navbar-toggler {
+        border-color: rgb(255, 255, 255);
+    }
+    
+    .navbar-collapse {
+        background-color: rgb(46, 46, 46);
+        z-index: 99;
+    }
+
+    .search-container > .col-6 {
+        max-width: 100%;
+        flex: none;
+    }
+    
+    .staff-list .search-container {
+        margin-bottom: 35px;
     }
 }

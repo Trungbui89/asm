@@ -14,7 +14,7 @@ function Header() {
         <React.Fragment>
             <Navbar expand='md'>
                 <div className="container">
-                    <NavbarBrand className='mr-auto' href="/">
+                    <NavbarBrand className='mr-auto navbar-dark' href="/">
                         <img src="assets/images/logo512.png" alt="logo"/>
                     </NavbarBrand>
                     <NavbarToggler onClick={toggleNav} />

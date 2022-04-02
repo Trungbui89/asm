@@ -208,3 +208,42 @@ export const deleteStaff = (id) => (dispatch) => {
   })
   .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); })
 }
+
+// render salary
+
+export const fetchRenderSalary = () => (dispatch) => {
+
+  dispatch(salaryLoanding(true))
+
+  return fetch(baseUrl + 'staffsSalary')
+  .then(response => {
+    if(response.ok) {
+      return response
+    } else {
+      var error = new Error(`Error ${response.status}: ${response.statusText}`)
+      error.response = response
+      throw error
+    }
+  },
+  error => {
+    var errmess = new Error(error.message)
+    throw errmess
+  })
+  .then(response => response.json())
+  .then(staffs => {dispatch(renderSalary(staffs))})
+  .catch(error => {dispatch(renderSalaryFailed(error.message))})
+}
+
+export const salaryLoanding = () => ({
+  type: ActionTypes.RENDER_SALARY_LOADING,
+})
+
+export const renderSalaryFailed = (errmess) => ({
+  type: ActionTypes.RENDER_SALARY_FAILED,
+  payload: errmess
+})
+
+export const renderSalary = (staffs) => ({
+  type: ActionTypes.RENDER_SALARY,
+  payload: staffs
+})

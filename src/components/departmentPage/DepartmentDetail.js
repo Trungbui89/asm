@@ -41,7 +41,6 @@ function RenderCard({staff, isLoading, errMess}) {
 // Main
 
 const DepartmentDetail = (props) => {
-    console.log(props)
     if (props.staffsLoading || props.departmentLoading) {
       return(
           <div className="container">
