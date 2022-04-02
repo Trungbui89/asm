@@ -1,7 +1,8 @@
 {
-  "name": "lab_04_1",
+  "name": "asm-4",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://trungbui89.github.io/asm/build/index.html",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
     "@fortawesome/free-regular-svg-icons": "^6.1.0",
