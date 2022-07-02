@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
-import Staff from './staffsList/StaffListComponent';
-import { STAFFS } from './shared/staffs';
+import React, { Component } from 'react';
+import Main from './components/MainComponent';
 import './App.css';
-import Nav from './components/Nav';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import { rootReducer } from './store/reducers/rootReducer'
 
-function App()  {
+const reduxStore = rootReducer()
 
-  const [info] = useState(STAFFS);
+class App extends Component {
 
-  return (
-    <div className="App">
-      <Nav />
-      <Staff staffs={info}/>
-    </div>
-  );
+  render() {
+    return (
+      <Provider store={reduxStore}>
+        <BrowserRouter>
+          <div className="App">
+            <Main />
+          </div>
+        </BrowserRouter>
+      </Provider>
+    );
+  }
 }
 
 export default App;
